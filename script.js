@@ -3733,6 +3733,9 @@ function initializeApp() {
     updateDashboard(allData);
     updateCharts(allData);
     
+    // Inicializar búsqueda de rutas
+    initializeRouteSearch();
+    
     // Inicializar sistema de tiempo real
     if (!realTimeManager) {
         realTimeManager = new RealTimeDataManager();
@@ -4062,3 +4065,200 @@ function toggleHotelesLayer() {
 // loadRutasLayer();
 // loadInundacionLayer();
 // loadHotelesLayer();
+
+
+// ===== VARIABLES GLOBALES PARA BÚSQUEDA DE RUTAS =====
+let allRoutes = [];
+let originDestinationMap = {};
+
+// ===== FUNCIÓN PARA CARGAR Y PROCESAR RUTAS =====
+function loadAndProcessRoutes() {
+    fetch('rutas_segmentadas.geojson')
+        .then(response => response.json())
+        .then(data => {
+            // Extraer todas las rutas
+            allRoutes = data.features.filter(f => f.geometry.type === 'LineString');
+            
+            // Crear mapa de origen-destino
+            originDestinationMap = {};
+            
+            allRoutes.forEach(route => {
+                const origen = route.properties.origen || '';
+                const destino = route.properties.destino || '';
+                const key = `${origen}|${destino}`;
+                
+                if (!originDestinationMap[key]) {
+                    originDestinationMap[key] = [];
+                }
+                originDestinationMap[key].push(route);
+            });
+            
+            // Poblar selectores
+            populateRouteSelectors();
+            
+            console.log('✅ Rutas cargadas y procesadas:', allRoutes.length);
+        })
+        .catch(error => console.warn('Error al cargar rutas:', error));
+}
+
+// ===== FUNCIÓN PARA POBLAR SELECTORES DE ORIGEN Y DESTINO =====
+function populateRouteSelectors() {
+    const origins = new Set();
+    const destinations = new Set();
+    
+    allRoutes.forEach(route => {
+        if (route.properties.origen) origins.add(route.properties.origen);
+        if (route.properties.destino) destinations.add(route.properties.destino);
+    });
+    
+    const originSelect = document.getElementById('originSelect');
+    const destinationSelect = document.getElementById('destinationSelect');
+    
+    // Limpiar opciones existentes (excepto la primera)
+    while (originSelect.options.length > 1) {
+        originSelect.remove(1);
+    }
+    while (destinationSelect.options.length > 1) {
+        destinationSelect.remove(1);
+    }
+    
+    // Agregar opciones ordenadas
+    Array.from(origins).sort().forEach(origin => {
+        const option = document.createElement('option');
+        option.value = origin;
+        option.textContent = origin;
+        originSelect.appendChild(option);
+    });
+    
+    Array.from(destinations).sort().forEach(destination => {
+        const option = document.createElement('option');
+        option.value = destination;
+        option.textContent = destination;
+        destinationSelect.appendChild(option);
+    });
+}
+
+// ===== FUNCIÓN PARA BUSCAR Y MOSTRAR RUTAS =====
+function searchAndDisplayRoutes() {
+    const origin = document.getElementById('originSelect').value;
+    const destination = document.getElementById('destinationSelect').value;
+    
+    if (!origin || !destination) {
+        alert('Por favor selecciona un punto de origen y destino');
+        return;
+    }
+    
+    const key = `${origin}|${destination}`;
+    const routes = originDestinationMap[key] || [];
+    
+    if (routes.length === 0) {
+        alert('No hay rutas disponibles para esta combinación');
+        return;
+    }
+    
+    // Mostrar panel de rutas
+    displayRoutesPanel(origin, destination, routes);
+}
+
+// ===== FUNCIÓN PARA MOSTRAR PANEL DE RUTAS =====
+function displayRoutesPanel(origin, destination, routes) {
+    const panel = document.getElementById('routesDisplayPanel');
+    const title = document.getElementById('routeTitle');
+    const container = document.getElementById('routesContainer');
+    
+    title.textContent = `${origin} → ${destination}`;
+    container.innerHTML = '';
+    
+    // Ordenar rutas por tipo (principal, secundaria, terciaria)
+    const sortedRoutes = routes.sort((a, b) => {
+        const typeOrder = {'principal': 0, 'secundaria': 1, 'terciaria': 2};
+        const typeA = getRouteType(a.properties.name).toLowerCase();
+        const typeB = getRouteType(b.properties.name).toLowerCase();
+        return (typeOrder[typeA] || 999) - (typeOrder[typeB] || 999);
+    });
+    
+    sortedRoutes.forEach((route, index) => {
+        const routeType = getRouteType(route.properties.name);
+        const routeCard = createRouteCard(route, routeType, index + 1);
+        container.appendChild(routeCard);
+    });
+    
+    panel.style.display = 'block';
+    
+    // Scroll al panel
+    setTimeout(() => {
+        panel.scrollIntoView({behavior: 'smooth', block: 'start'});
+    }, 100);
+}
+
+// ===== FUNCIÓN PARA OBTENER TIPO DE RUTA =====
+function getRouteType(name) {
+    const nameLower = (name || '').toLowerCase();
+    if (nameLower.includes('principal')) return 'Principal';
+    if (nameLower.includes('secundaria')) return 'Secundaria';
+    if (nameLower.includes('terciaria')) return 'Terciaria';
+    return 'Ruta';
+}
+
+// ===== FUNCIÓN PARA CREAR TARJETA DE RUTA =====
+function createRouteCard(route, routeType, index) {
+    const card = document.createElement('div');
+    const typeClass = routeType.toLowerCase();
+    
+    // Datos de ejemplo (en producción, estos vendrían del GeoJSON)
+    const distance = `${(Math.random() * 20 + 20).toFixed(1)} km`;
+    const time = `${Math.floor(Math.random() * 30 + 30)} min`;
+    const description = route.properties.description || 
+        `Ruta ${routeType} desde ${route.properties.origen} hacia ${route.properties.destino}. ` +
+        `Esta es una ruta optimizada para transporte de delegaciones y equipos.`;
+    
+    card.className = `route-card ${typeClass}`;
+    card.innerHTML = `
+        <div class="route-title">
+            <h4>${routeType} ${index}</h4>
+            <span class="route-type-badge ${typeClass}">${routeType}</span>
+        </div>
+        
+        <div class="route-info">
+            <div class="route-info-item">
+                <span>📍</span>
+                <span>${distance}</span>
+            </div>
+            <div class="route-info-item">
+                <span>⏱️</span>
+                <span>${time}</span>
+            </div>
+        </div>
+        
+        <div class="route-description">
+            ${description}
+        </div>
+        
+        <button class="btn-google-maps" onclick="openInGoogleMaps('${route.properties.origen}', '${route.properties.destino}')">
+            📍 Abrir en Google Maps
+        </button>
+    `;
+    
+    return card;
+}
+
+// ===== FUNCIÓN PARA ABRIR EN GOOGLE MAPS =====
+function openInGoogleMaps(origin, destination) {
+    const mapsUrl = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(origin)}&destination=${encodeURIComponent(destination)}`;
+    window.open(mapsUrl, '_blank');
+}
+
+// ===== INICIALIZAR BÚSQUEDA DE RUTAS =====
+function initializeRouteSearch() {
+    const searchBtn = document.getElementById('searchRoutesBtn');
+    if (searchBtn) {
+        searchBtn.addEventListener('click', searchAndDisplayRoutes);
+    }
+    
+    // Cargar y procesar rutas
+    loadAndProcessRoutes();
+}
+
+// ===== LLAMAR A INICIALIZACIÓN DESDE initializeApp =====
+// Agregar esta línea después de setupEventListeners() en initializeApp():
+// initializeRouteSearch();
