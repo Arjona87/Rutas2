@@ -19,6 +19,327 @@ const YEAR_COLORS = {
     '2025p': '#000000' // Negro para estrellas 2025p
 };
 
+const UBICACIONES = {
+            'aeropuerto_gdl': {
+                nombre: '✈️ Aeropuerto GDL',
+                lat: 20.5213,
+                lng: -103.3039
+            },
+            'base_aerea': {
+                nombre: '🛡️ Base Aérea Militar',
+                lat: 20.5167,
+                lng: -103.4167
+            },
+            'aeropuerto_pvr': {
+                nombre: '✈️ Aeropuerto Puerto Vallarta',
+                lat: 20.6295,
+                lng: -105.2539
+            },
+            'hyatt': {
+                nombre: '🏨 Hyatt Regency Andares',
+                lat: 20.6296,
+                lng: -103.3881
+            },
+            'hilton': {
+                nombre: '🏨 Hilton Midtown',
+                lat: 20.6547,
+                lng: -103.3263
+            },
+            'jw_marriott': {
+                nombre: '🏨 JW Marriott',
+                lat: 20.6309,
+                lng: -103.3913
+            },
+            'fiesta_americana': {
+                nombre: '🏨 Grand Fiesta Americana',
+                lat: 20.6365,
+                lng: -103.3809
+            },
+            'westin': {
+                nombre: '🏨 The Westin',
+                lat: 20.6531,
+                lng: -103.3227
+            },
+            'ac_hotel': {
+                nombre: '🏨 AC Hotel Expo',
+                lat: 20.6234,
+                lng: -103.3683
+            },
+            'fiesta_inn': {
+                nombre: '🏨 Fiesta Inn Expo',
+                lat: 20.6218,
+                lng: -103.3697
+            },
+            'ibis': {
+                nombre: '🏨 Ibis Guadalajara',
+                lat: 20.6547,
+                lng: -103.3263
+            },
+            'estadio_gdl': {
+                nombre: '🏟️ Estadio Guadalajara',
+                lat: 20.5867,
+                lng: -103.3125
+            },
+            'estadio_jalisco': {
+                nombre: '🏟️ Estadio Jalisco',
+                lat: 20.6547,
+                lng: -103.3263
+            },
+            'sports_arena': {
+                nombre: '🏋️ Sports Arena Club',
+                lat: 20.6234,
+                lng: -103.3683
+            },
+            'academia_aga': {
+                nombre: '⚽ Academia AGA',
+                lat: 20.5867,
+                lng: -103.3125
+            }
+        };
+
+const RUTAS = {
+            'aeropuerto_gdl|hyatt': {
+                principal: {
+                    distancia: '30.2 km',
+                    tiempo: '60 min',
+                    descripcion: 'Desde el Aeropuerto Internacional de Guadalajara (Carr. Guadalajara-Chapala km 17.5), se toma el Blvd. Aeropuerto hacia la carretera México 23/44, continuando por Calz. Lázaro Cárdenas hasta tomar la salida hacia Av. Patria. Se avanza por dicha avenida hasta llegar a Paseo Andares en Zapopan.',
+                    url: 'https://www.google.com/maps/dir/Aeropuerto+Internacional+Guadalajara/Hyatt+Regency+Andares+Zapopan/'
+                },
+                secundaria: {
+                    distancia: '39.5 km',
+                    tiempo: '60 min',
+                    descripcion: 'Desde el Aeropuerto Internacional de Guadalajara (Carr. Guadalajara-Chapala km 17.5), se toma el Blvd. Aeropuerto hacia la carretera México 23/44, continuando por Periférico Sur hasta tomar la salida hacia Av. Patria. Se avanza por dicha avenida hasta llegar a Paseo Andares en Zapopan.',
+                    url: 'https://www.google.com/maps/dir/Aeropuerto+Internacional+Guadalajara/Hyatt+Regency+Andares+Zapopan/'
+                },
+                terciaria: {
+                    distancia: '39.4 km',
+                    tiempo: '70 min',
+                    descripcion: 'Desde el Aeropuerto Internacional de Guadalajara (Carr. Guadalajara-Chapala km 17.5), se toma el Blvd. Aeropuerto hacia la carretera México 23/44, continuando por Av. Periférico Poniente Manuel Gómez Morín hasta tomar la salida hacia Av. Acueducto en Puerta de Hierro, Zapopan. Se finaliza por Av. Acueducto hasta llegar a Paseo Andares, Zapopan.',
+                    url: 'https://www.google.com/maps/dir/Aeropuerto+Internacional+Guadalajara/Hyatt+Regency+Andares+Zapopan/'
+                }
+            },
+            'aeropuerto_gdl|hilton': {
+                principal: {
+                    distancia: '25.8 km',
+                    tiempo: '45 min',
+                    descripcion: 'Desde el Aeropuerto Internacional de Guadalajara, se toma el Blvd. Aeropuerto hacia México 23/44, continuando por Calz. Lázaro Cárdenas hasta tomar la salida hacia Avenida México. Se continúa por Avenida México hasta llegar al Hotel Hilton Midtown en el Centro.',
+                    url: 'https://www.google.com/maps/dir/Aeropuerto+Internacional+Guadalajara/Hilton+Midtown+Guadalajara/'
+                },
+                secundaria: {
+                    distancia: '35.2 km',
+                    tiempo: '50 min',
+                    descripcion: 'Desde el Aeropuerto Internacional de Guadalajara, se toma el Blvd. Aeropuerto hacia México 23/44, continuando por Periférico Sur hasta la salida hacia Avenida México. Se finaliza por Avenida México hasta el Hotel Hilton Midtown.',
+                    url: 'https://www.google.com/maps/dir/Aeropuerto+Internacional+Guadalajara/Hilton+Midtown+Guadalajara/'
+                },
+                terciaria: {
+                    distancia: '36.5 km',
+                    tiempo: '55 min',
+                    descripcion: 'Desde el Aeropuerto Internacional de Guadalajara, se toma el Blvd. Aeropuerto hacia México 23/44, continuando por Av. Periférico Poniente Manuel Gómez Morín, luego hacia Avenida México hasta llegar al Hotel Hilton Midtown.',
+                    url: 'https://www.google.com/maps/dir/Aeropuerto+Internacional+Guadalajara/Hilton+Midtown+Guadalajara/'
+                }
+            },
+            'aeropuerto_gdl|jw_marriott': {
+                principal: {
+                    distancia: '28.5 km',
+                    tiempo: '55 min',
+                    descripcion: 'Desde el Aeropuerto Internacional de Guadalajara, se toma el Blvd. Aeropuerto hacia México 23/44, continuando por Calz. Lázaro Cárdenas hasta Av. Patria. Se continúa hacia Zapopan hasta llegar al JW Marriott.',
+                    url: 'https://www.google.com/maps/dir/Aeropuerto+Internacional+Guadalajara/JW+Marriott+Zapopan/'
+                },
+                secundaria: {
+                    distancia: '38.0 km',
+                    tiempo: '60 min',
+                    descripcion: 'Desde el Aeropuerto Internacional de Guadalajara, se toma el Blvd. Aeropuerto hacia México 23/44, continuando por Periférico Sur hasta Av. Patria. Se continúa hacia Zapopan hasta llegar al JW Marriott.',
+                    url: 'https://www.google.com/maps/dir/Aeropuerto+Internacional+Guadalajara/JW+Marriott+Zapopan/'
+                },
+                terciaria: {
+                    distancia: '38.5 km',
+                    tiempo: '65 min',
+                    descripcion: 'Desde el Aeropuerto Internacional de Guadalajara, se toma el Blvd. Aeropuerto hacia México 23/44, continuando por Av. Periférico Poniente Manuel Gómez Morín hasta Av. Acueducto. Se finaliza hacia Zapopan hasta llegar al JW Marriott.',
+                    url: 'https://www.google.com/maps/dir/Aeropuerto+Internacional+Guadalajara/JW+Marriott+Zapopan/'
+                }
+            },
+            'aeropuerto_gdl|fiesta_americana': {
+                principal: {
+                    distancia: '29.0 km',
+                    tiempo: '55 min',
+                    descripcion: 'Desde el Aeropuerto Internacional de Guadalajara, se toma el Blvd. Aeropuerto hacia México 23/44, continuando por Calz. Lázaro Cárdenas hasta Av. Patria. Se continúa hacia Zapopan hasta llegar a Grand Fiesta Americana.',
+                    url: 'https://www.google.com/maps/dir/Aeropuerto+Internacional+Guadalajara/Grand+Fiesta+Americana+Zapopan/'
+                },
+                secundaria: {
+                    distancia: '38.5 km',
+                    tiempo: '60 min',
+                    descripcion: 'Desde el Aeropuerto Internacional de Guadalajara, se toma el Blvd. Aeropuerto hacia México 23/44, continuando por Periférico Sur hasta Av. Patria. Se continúa hacia Zapopan hasta llegar a Grand Fiesta Americana.',
+                    url: 'https://www.google.com/maps/dir/Aeropuerto+Internacional+Guadalajara/Grand+Fiesta+Americana+Zapopan/'
+                },
+                terciaria: {
+                    distancia: '39.0 km',
+                    tiempo: '65 min',
+                    descripcion: 'Desde el Aeropuerto Internacional de Guadalajara, se toma el Blvd. Aeropuerto hacia México 23/44, continuando por Av. Periférico Poniente Manuel Gómez Morín hasta Av. Acueducto. Se finaliza hacia Zapopan hasta llegar a Grand Fiesta Americana.',
+                    url: 'https://www.google.com/maps/dir/Aeropuerto+Internacional+Guadalajara/Grand+Fiesta+Americana+Zapopan/'
+                }
+            },
+            'aeropuerto_gdl|westin': {
+                principal: {
+                    distancia: '26.0 km',
+                    tiempo: '48 min',
+                    descripcion: 'Desde el Aeropuerto Internacional de Guadalajara, se toma el Blvd. Aeropuerto hacia México 23/44, continuando por Calz. Lázaro Cárdenas hasta Avenida México. Se continúa hacia el Centro hasta llegar a The Westin.',
+                    url: 'https://www.google.com/maps/dir/Aeropuerto+Internacional+Guadalajara/The+Westin+Guadalajara/'
+                },
+                secundaria: {
+                    distancia: '35.5 km',
+                    tiempo: '52 min',
+                    descripcion: 'Desde el Aeropuerto Internacional de Guadalajara, se toma el Blvd. Aeropuerto hacia México 23/44, continuando por Periférico Sur hasta Avenida México. Se continúa hacia el Centro hasta llegar a The Westin.',
+                    url: 'https://www.google.com/maps/dir/Aeropuerto+Internacional+Guadalajara/The+Westin+Guadalajara/'
+                },
+                terciaria: {
+                    distancia: '37.0 km',
+                    tiempo: '57 min',
+                    descripcion: 'Desde el Aeropuerto Internacional de Guadalajara, se toma el Blvd. Aeropuerto hacia México 23/44, continuando por Av. Periférico Poniente Manuel Gómez Morín hasta Avenida México. Se continúa hacia el Centro hasta llegar a The Westin.',
+                    url: 'https://www.google.com/maps/dir/Aeropuerto+Internacional+Guadalajara/The+Westin+Guadalajara/'
+                }
+            },
+            'aeropuerto_gdl|ac_hotel': {
+                principal: {
+                    distancia: '27.5 km',
+                    tiempo: '50 min',
+                    descripcion: 'Desde el Aeropuerto Internacional de Guadalajara, se toma el Blvd. Aeropuerto hacia México 23/44, continuando por Calz. Lázaro Cárdenas hasta Av. Patria. Se continúa hacia el Área de Exposiciones hasta llegar a AC Hotel Expo.',
+                    url: 'https://www.google.com/maps/dir/Aeropuerto+Internacional+Guadalajara/AC+Hotel+Expo+Guadalajara/'
+                },
+                secundaria: {
+                    distancia: '37.0 km',
+                    tiempo: '55 min',
+                    descripcion: 'Desde el Aeropuerto Internacional de Guadalajara, se toma el Blvd. Aeropuerto hacia México 23/44, continuando por Periférico Sur hasta Av. Patria. Se continúa hacia el Área de Exposiciones hasta llegar a AC Hotel Expo.',
+                    url: 'https://www.google.com/maps/dir/Aeropuerto+Internacional+Guadalajara/AC+Hotel+Expo+Guadalajara/'
+                },
+                terciaria: {
+                    distancia: '37.5 km',
+                    tiempo: '60 min',
+                    descripcion: 'Desde el Aeropuerto Internacional de Guadalajara, se toma el Blvd. Aeropuerto hacia México 23/44, continuando por Av. Periférico Poniente Manuel Gómez Morín hasta Av. Acueducto. Se finaliza hacia el Área de Exposiciones hasta llegar a AC Hotel Expo.',
+                    url: 'https://www.google.com/maps/dir/Aeropuerto+Internacional+Guadalajara/AC+Hotel+Expo+Guadalajara/'
+                }
+            },
+            'aeropuerto_gdl|fiesta_inn': {
+                principal: {
+                    distancia: '27.0 km',
+                    tiempo: '50 min',
+                    descripcion: 'Desde el Aeropuerto Internacional de Guadalajara, se toma el Blvd. Aeropuerto hacia México 23/44, continuando por Calz. Lázaro Cárdenas hasta Av. Patria. Se continúa hacia el Área de Exposiciones hasta llegar a Fiesta Inn Expo.',
+                    url: 'https://www.google.com/maps/dir/Aeropuerto+Internacional+Guadalajara/Fiesta+Inn+Expo+Guadalajara/'
+                },
+                secundaria: {
+                    distancia: '36.5 km',
+                    tiempo: '55 min',
+                    descripcion: 'Desde el Aeropuerto Internacional de Guadalajara, se toma el Blvd. Aeropuerto hacia México 23/44, continuando por Periférico Sur hasta Av. Patria. Se continúa hacia el Área de Exposiciones hasta llegar a Fiesta Inn Expo.',
+                    url: 'https://www.google.com/maps/dir/Aeropuerto+Internacional+Guadalajara/Fiesta+Inn+Expo+Guadalajara/'
+                },
+                terciaria: {
+                    distancia: '37.0 km',
+                    tiempo: '60 min',
+                    descripcion: 'Desde el Aeropuerto Internacional de Guadalajara, se toma el Blvd. Aeropuerto hacia México 23/44, continuando por Av. Periférico Poniente Manuel Gómez Morín hasta Av. Acueducto. Se finaliza hacia el Área de Exposiciones hasta llegar a Fiesta Inn Expo.',
+                    url: 'https://www.google.com/maps/dir/Aeropuerto+Internacional+Guadalajara/Fiesta+Inn+Expo+Guadalajara/'
+                }
+            },
+            'aeropuerto_gdl|ibis': {
+                principal: {
+                    distancia: '26.5 km',
+                    tiempo: '48 min',
+                    descripcion: 'Desde el Aeropuerto Internacional de Guadalajara, se toma el Blvd. Aeropuerto hacia México 23/44, continuando por Calz. Lázaro Cárdenas hasta Avenida México. Se continúa hacia el Centro hasta llegar a Ibis Guadalajara.',
+                    url: 'https://www.google.com/maps/dir/Aeropuerto+Internacional+Guadalajara/Ibis+Guadalajara/'
+                },
+                secundaria: {
+                    distancia: '36.0 km',
+                    tiempo: '52 min',
+                    descripcion: 'Desde el Aeropuerto Internacional de Guadalajara, se toma el Blvd. Aeropuerto hacia México 23/44, continuando por Periférico Sur hasta Avenida México. Se continúa hacia el Centro hasta llegar a Ibis Guadalajara.',
+                    url: 'https://www.google.com/maps/dir/Aeropuerto+Internacional+Guadalajara/Ibis+Guadalajara/'
+                },
+                terciaria: {
+                    distancia: '37.5 km',
+                    tiempo: '57 min',
+                    descripcion: 'Desde el Aeropuerto Internacional de Guadalajara, se toma el Blvd. Aeropuerto hacia México 23/44, continuando por Av. Periférico Poniente Manuel Gómez Morín hasta Avenida México. Se continúa hacia el Centro hasta llegar a Ibis Guadalajara.',
+                    url: 'https://www.google.com/maps/dir/Aeropuerto+Internacional+Guadalajara/Ibis+Guadalajara/'
+                }
+            },
+            'base_aerea|hyatt': {
+                principal: {
+                    distancia: '18.5 km',
+                    tiempo: '35 min',
+                    descripcion: 'Desde la Base Aérea Militar de Zapopan, se toma Av. López Mateos hacia el sur, continuando por Av. Patria hasta llegar a Paseo Andares en Zapopan.',
+                    url: 'https://www.google.com/maps/dir/Base+Aerea+Zapopan/Hyatt+Regency+Andares+Zapopan/'
+                },
+                secundaria: {
+                    distancia: '22.0 km',
+                    tiempo: '40 min',
+                    descripcion: 'Desde la Base Aérea Militar de Zapopan, se toma Av. López Mateos hacia el sur, continuando por Periférico Sur hasta Av. Patria. Se continúa hasta llegar a Paseo Andares en Zapopan.',
+                    url: 'https://www.google.com/maps/dir/Base+Aerea+Zapopan/Hyatt+Regency+Andares+Zapopan/'
+                },
+                terciaria: {
+                    distancia: '23.0 km',
+                    tiempo: '45 min',
+                    descripcion: 'Desde la Base Aérea Militar de Zapopan, se toma Av. López Mateos hacia el sur, continuando por Av. Periférico Poniente Manuel Gómez Morín hasta Av. Acueducto. Se finaliza hacia Paseo Andares en Zapopan.',
+                    url: 'https://www.google.com/maps/dir/Base+Aerea+Zapopan/Hyatt+Regency+Andares+Zapopan/'
+                }
+            },
+            'base_aerea|hilton': {
+                principal: {
+                    distancia: '15.0 km',
+                    tiempo: '30 min',
+                    descripcion: 'Desde la Base Aérea Militar de Zapopan, se toma Av. López Mateos hacia el sur, continuando por Avenida México hasta llegar al Hotel Hilton Midtown en el Centro.',
+                    url: 'https://www.google.com/maps/dir/Base+Aerea+Zapopan/Hilton+Midtown+Guadalajara/'
+                },
+                secundaria: {
+                    distancia: '20.0 km',
+                    tiempo: '35 min',
+                    descripcion: 'Desde la Base Aérea Militar de Zapopan, se toma Av. López Mateos hacia el sur, continuando por Periférico Sur hasta Avenida México. Se continúa hacia el Centro hasta llegar al Hotel Hilton Midtown.',
+                    url: 'https://www.google.com/maps/dir/Base+Aerea+Zapopan/Hilton+Midtown+Guadalajara/'
+                },
+                terciaria: {
+                    distancia: '21.0 km',
+                    tiempo: '40 min',
+                    descripcion: 'Desde la Base Aérea Militar de Zapopan, se toma Av. López Mateos hacia el sur, continuando por Av. Periférico Poniente Manuel Gómez Morín hasta Avenida México. Se continúa hacia el Centro hasta llegar al Hotel Hilton Midtown.',
+                    url: 'https://www.google.com/maps/dir/Base+Aerea+Zapopan/Hilton+Midtown+Guadalajara/'
+                }
+            },
+            'estadio_gdl|hyatt': {
+                principal: {
+                    distancia: '12.5 km',
+                    tiempo: '25 min',
+                    descripcion: 'Desde el Estadio Guadalajara, se toma Av. Paseo de la Montaña hacia el norte, continuando por Av. Patria hasta llegar a Paseo Andares en Zapopan.',
+                    url: 'https://www.google.com/maps/dir/Estadio+Guadalajara/Hyatt+Regency+Andares+Zapopan/'
+                },
+                secundaria: {
+                    distancia: '16.0 km',
+                    tiempo: '30 min',
+                    descripcion: 'Desde el Estadio Guadalajara, se toma Av. Paseo de la Montaña hacia el norte, continuando por Periférico Sur hasta Av. Patria. Se continúa hasta llegar a Paseo Andares en Zapopan.',
+                    url: 'https://www.google.com/maps/dir/Estadio+Guadalajara/Hyatt+Regency+Andares+Zapopan/'
+                },
+                terciaria: {
+                    distancia: '17.0 km',
+                    tiempo: '35 min',
+                    descripcion: 'Desde el Estadio Guadalajara, se toma Av. Paseo de la Montaña hacia el norte, continuando por Av. Periférico Poniente Manuel Gómez Morín hasta Av. Acueducto. Se finaliza hacia Paseo Andares en Zapopan.',
+                    url: 'https://www.google.com/maps/dir/Estadio+Guadalajara/Hyatt+Regency+Andares+Zapopan/'
+                }
+            },
+            'estadio_gdl|hilton': {
+                principal: {
+                    distancia: '10.0 km',
+                    tiempo: '20 min',
+                    descripcion: 'Desde el Estadio Guadalajara, se toma Av. Paseo de la Montaña hacia el norte, continuando por Avenida México hasta llegar al Hotel Hilton Midtown en el Centro.',
+                    url: 'https://www.google.com/maps/dir/Estadio+Guadalajara/Hilton+Midtown+Guadalajara/'
+                },
+                secundaria: {
+                    distancia: '14.0 km',
+                    tiempo: '25 min',
+                    descripcion: 'Desde el Estadio Guadalajara, se toma Av. Paseo de la Montaña hacia el norte, continuando por Periférico Sur hasta Avenida México. Se continúa hacia el Centro hasta llegar al Hotel Hilton Midtown.',
+                    url: 'https://www.google.com/maps/dir/Estadio+Guadalajara/Hilton+Midtown+Guadalajara/'
+                },
+                terciaria: {
+                    distancia: '15.0 km',
+                    tiempo: '30 min',
+                    descripcion: 'Desde el Estadio Guadalajara, se toma Av. Paseo de la Montaña hacia el norte, continuando por Av. Periférico Poniente Manuel Gómez Morín hasta Avenida México. Se continúa hacia el Centro hasta llegar al Hotel Hilton Midtown.',
+                    url: 'https://www.google.com/maps/dir/Estadio+Guadalajara/Hilton+Midtown+Guadalajara/'
+                }
+            }
+        };
+
 // ===== VARIABLES GLOBALES =====
 let map;
 let allData = [];
