@@ -4328,32 +4328,35 @@ let originDestinationMap = {};
 
 // ===== FUNCIÓN PARA CARGAR Y PROCESAR RUTAS =====
 function loadAndProcessRoutes() {
-    fetch('rutas_segmentadas.geojson')
-        .then(response => response.json())
-        .then(data => {
-            // Extraer todas las rutas
-            allRoutes = data.features.filter(f => f.geometry.type === 'LineString');
-            
-            // Crear mapa de origen-destino
-            originDestinationMap = {};
-            
-            allRoutes.forEach(route => {
-                const origen = route.properties.origen || '';
-                const destino = route.properties.destino || '';
-                const key = `${origen}|${destino}`;
-                
-                if (!originDestinationMap[key]) {
-                    originDestinationMap[key] = [];
-                }
-                originDestinationMap[key].push(route);
+    // Crear mapa de origen-destino desde las RUTAS definidas
+    originDestinationMap = {};
+    
+    // Iterar sobre todas las rutas definidas
+    Object.keys(RUTAS).forEach(key => {
+        const [origen, destino] = key.split('|');
+        if (!originDestinationMap[key]) {
+            originDestinationMap[key] = [];
+        }
+        
+        // Crear objetos de ruta con propiedades
+        const rutas = RUTAS[key];
+        Object.keys(rutas).forEach(tipo => {
+            originDestinationMap[key].push({
+                properties: {
+                    origen: origen,
+                    destino: destino,
+                    tipo: tipo,
+                    ...rutas[tipo]
+                },
+                geometry: { type: 'LineString' }
             });
-            
-            // Poblar selectores
-            populateRouteSelectors();
-            
-            console.log('✅ Rutas cargadas y procesadas:', allRoutes.length);
-        })
-        .catch(error => console.warn('Error al cargar rutas:', error));
+        });
+    });
+    
+    // Poblar selectores
+    populateRouteSelectors();
+    
+    console.log('✅ Rutas cargadas desde UBICACIONES y RUTAS:', Object.keys(originDestinationMap).length);
 }
 
 // ===== FUNCIÓN PARA POBLAR SELECTORES DE ORIGEN Y DESTINO =====
