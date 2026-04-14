@@ -193,20 +193,6 @@ function addHeatmapControl() {
         div.innerHTML = `
             <h4>Mapa de Calor</h4>
             <div class="heatmap-container">
-                <div class="checkbox-container">
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="heatmapConcentracion">
-                        <label for="heatmapConcentracion">Fosas</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="heatmapVictimas">
-                        <label for="heatmapVictimas">Víctimas</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="municipalBorders" checked>
-                        <label for="municipalBorders">Municipios</label>
-                    </div>
-                </div>
             </div>
             <h4>Mapa Base</h4>
             <div class="base-map-container">
@@ -225,6 +211,12 @@ function addHeatmapControl() {
                     </div>
                 </div>
             </div>
+            <div class="checkbox-container">
+                <div class="checkbox-item">
+                    <input type="checkbox" id="municipalBorders" checked>
+                    <label for="municipalBorders">Municipios</label>
+                </div>
+            </div>
         `;
         
         return div;
@@ -234,8 +226,6 @@ function addHeatmapControl() {
     
     // Event listeners para checkboxes y radio buttons
     setTimeout(() => {
-        document.getElementById('heatmapConcentracion').addEventListener('change', toggleHeatmapConcentracion);
-        document.getElementById('heatmapVictimas').addEventListener('change', toggleHeatmapVictimas);
         document.getElementById('municipalBorders').addEventListener('change', toggleMunicipalBorders);
         
         // Event listeners para radio buttons de mapa base
