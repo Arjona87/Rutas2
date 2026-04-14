@@ -147,55 +147,9 @@ function initializeMap() {
 }
 
 function updateMapMarkers(data) {
+    // No mostrar marcadores de fosas - capa eliminada
     markersLayer.clearLayers();
     starsLayer2025p.clearLayers();
-    
-    // Obtener años seleccionados y estado de 2025p
-    const selectedYears = getSelectedYears();
-    const show2025p = getShow2025p();
-    
-    data.forEach(item => {
-        // Manejar registros 2025p por separado
-        if (item.año === '2025p') {
-            if (show2025p) {
-                createStar2025p(item);
-            }
-            return;
-        }
-        
-        // Solo mostrar marcadores de años seleccionados (excluyendo 2025p)
-        if (!selectedYears.includes(item.año.toString())) {
-            return;
-        }
-        
-        const color = YEAR_COLORS[item.año] || '#ff0000';
-        
-        const customIcon = L.divIcon({
-            className: 'custom-marker',
-            html: `<div style="background-color: ${color}; width: 12px; height: 12px; border-radius: 50%; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3);"></div>`,
-            iconSize: [12, 12],
-            iconAnchor: [6, 6]
-        });
-        
-        const marker = L.marker([item.latitud, item.longitud], {
-            icon: customIcon
-        });
-        
-        const popupContent = `
-            <div class="popup-content-compact">
-                <h4>📍 ${item.municipio}</h4>
-                <p><strong>🔢 Referencia:</strong> ${item.referencia}</p>
-                <p><strong>👥 Víctimas:</strong> ${item.victimas}</p>
-                <p><strong>📅 Año:</strong> ${item.año}</p>
-                <p><strong>🚨 Delito:</strong> ${item.delito}</p>
-                <p><strong>📍 Coordenadas:</strong> ${item.latitud.toFixed(4)}, ${item.longitud.toFixed(4)}</p>
-                ${item.link ? `<p><strong>🔗 Fuente:</strong> <a href="${item.link}" target="_blank">Ver más información</a></p>` : ''}
-            </div>
-        `;
-        
-        marker.bindPopup(popupContent);
-        markersLayer.addLayer(marker);
-    });
 }
 
 // ===== FUNCIÓN PARA CREAR ESTRELLAS 2025P =====
@@ -3725,24 +3679,14 @@ class RealTimeDataManager {
 // Inicializar sistema de tiempo real después del login
 let realTimeManager = null;
 
-// Modificar la función initializeApp para incluir tiempo real
+// ===== INICIALIZACIÓN DE LA APLICACIÓN =====
 function initializeApp() {
     initializeMap();
-    populateFilters();
     setupEventListeners();
-    updateDashboard(allData);
-    updateCharts(allData);
     
     // Inicializar búsqueda de rutas
     initializeRouteSearch();
-    
-    // Inicializar sistema de tiempo real
-    if (!realTimeManager) {
-        realTimeManager = new RealTimeDataManager();
-    }
 }
-
-
 
 // ===== FUNCIÓN PARA CAMBIAR CAPA BASE =====
 function changeBaseLayer() {
