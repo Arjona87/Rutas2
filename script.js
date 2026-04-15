@@ -419,7 +419,7 @@ function initializeApp() {
 // ===== MAPA =====
 function initializeMap() {
     // Crear mapa centrado en Jalisco
-    map = L.map('map').setView([20.6597, -103.3496], 8);
+    map = L.map('map').setView([20.519, -103.36], 10);
     
     // Definir capas base
     const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
